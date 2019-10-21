@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class FuzzySet : MonoBehaviour
 {
-    // Vector of membership functions (animation curves) 
-    public AnimationCurve[] membershipFunctions; 
+    public float DOM { get; private set; }
+    public string setName { get; private set; }
+    public AnimationCurve membershipFunction { get; private set; }
 
-    private void Start()
+    public FuzzySet(string name, AnimationCurve curve)
     {
-        
+        setName = name;
+        membershipFunction = curve;
+    }
+
+    public float GetDOM(float value)
+    {
+        DOM = membershipFunction.Evaluate(value);
+        return DOM; 
     }
 
     // Potential function to create fuzzy set curves via code parameters? 
