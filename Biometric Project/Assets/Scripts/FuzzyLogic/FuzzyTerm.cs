@@ -1,17 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FuzzyTerm : MonoBehaviour
 {
+    //Type T = typeof(struct); 
+
     // FuzzySet input1, FuzzySet input2
     // AnimationCurve input1? 
-    public static float AND(FuzzySet input1, FuzzySet input2)
+    public static FuzzyVariable<T> AND<T>(FuzzyVariable<T> input) where T : struct
     {
         // float var1 = input1.evaluate();
         // float var2 = input2.evaluate();
         // return Mathf.Clamp01(Mathf.Min(var1, var2));
-        return 0f; 
+        return input;
     }
 
     // FuzzySet input

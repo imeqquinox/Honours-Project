@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuzzyRule : MonoBehaviour
+public class FuzzyRule<T> where T : struct
 {
-    public FuzzySet antecedent { get; private set; }
-    public FuzzySet consequence { get; private set; }
+    public FuzzyTerm outputLinguisticVariable { get; private set; }
+    public FuzzyTerm Expression { get; private set; }
 
-    public FuzzyRule(FuzzySet input, FuzzySet output)
+    public FuzzyRule(FuzzyTerm outputVar, FuzzyTerm exp)
     {
-        antecedent = input;
-        consequence = output; 
+        outputLinguisticVariable = outputVar;
+        Expression = exp; 
     }
 
     public void Calculate()

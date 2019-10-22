@@ -1,30 +1,35 @@
-﻿using System.Collections;
+﻿using System; 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuzzySet : MonoBehaviour
+public class FuzzySet<T> where T : struct, IConvertible
 {
-    public float DOM { get; private set; }
-    public string setName { get; private set; }
-    public AnimationCurve membershipFunction { get; private set; }
+    //public float DOM { get; private set; }
+    private FuzzyVariable<T>[] variables = new FuzzyVariable<T>[3];
+    private int index = 0; 
 
-    public FuzzySet(string name, AnimationCurve curve)
+    public void Set(T linguisticVariable, AnimationCurve fx)
     {
-        setName = name;
-        membershipFunction = curve;
+        this.Set(new FuzzyVariable<T>(linguisticVariable, fx));
     }
 
-    public float GetDOM(float value)
+    public void Set(FuzzyVariable<T> fuzzyVariable)
     {
-        DOM = membershipFunction.Evaluate(value);
-        return DOM; 
+        if (fuzzyVariable == null)
+            return;
+
+        // The order you write and setup the set is the order of the fuzzyvariables
+        this.variables[index] = fuzzyVariable;
+        index++; 
     }
 
-    // Potential function to create fuzzy set curves via code parameters? 
-    // void SetTriangle(float left, float peak, float right); 
-
-    /* void Set(T linguisticVariable)
-     * this.Set(
-     */
-    
+    // Evaluate 
+    public void Evaluate(float x)
+    {
+        for (int i = 0; i < this.variables.Length; i++)
+        {
+            variables[i].Evaluate(x);
+        }
+    }
 }
