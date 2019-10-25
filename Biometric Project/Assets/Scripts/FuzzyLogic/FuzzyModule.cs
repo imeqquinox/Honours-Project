@@ -7,7 +7,8 @@ public class FuzzyModule : MonoBehaviour
 {
     [SerializeField] Button testBtn;
     [SerializeField] InputField distance;
-    [SerializeField] InputField ammo; 
+    [SerializeField] InputField ammo;
+    [SerializeField] Text outcomeText; 
 
     enum Desirability { Undersirable, Desirable, VeryDesirable };
     enum DistanceToTarget { Close, Medium, Far };
@@ -35,6 +36,8 @@ public class FuzzyModule : MonoBehaviour
 
     // List of rules m_Rules; 
     private FuzzyRule[] rules = new FuzzyRule[9];
+
+    float outcome = 0; 
 
     private void Start()
     {
@@ -79,8 +82,8 @@ public class FuzzyModule : MonoBehaviour
         rules[3] = new FuzzyRule(FuzzyTerm.AND(targetMedium, ammoLoads), veryDesirable);
         rules[4] = new FuzzyRule(FuzzyTerm.AND(targetMedium, ammoOkay), veryDesirable);
         rules[5] = new FuzzyRule(FuzzyTerm.AND(targetMedium, ammoLow), desirable);
-        rules[6] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoLoads), desirable);
-        rules[7] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoOkay), desirable);
+        rules[6] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoLoads), undersirable);
+        rules[7] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoOkay), undersirable);
         rules[8] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoLow), undersirable);
 
         return rules;
@@ -88,10 +91,6 @@ public class FuzzyModule : MonoBehaviour
 
     private void Defuzzify()
     {
-        desirability.ClearDOMs();
-        distanceToTarget.ClearDOMs();
-        ammoStatus.ClearDOMs();
-
         // Process rules 
         rules = GetRules();
         for (int i = 0; i < rules.Length; i++)
@@ -99,23 +98,50 @@ public class FuzzyModule : MonoBehaviour
             rules[i].Calculate();
         }
 
-        Debug.Log("Undesirable confidence: " + undersirable.DOM);
-        Debug.Log("Desirable confidence: " + desirable.DOM);
-        Debug.Log("Very Desirable confidence " + veryDesirable.DOM);
+        //Debug.Log("Undesirable confidence: " + undersirable.DOM);
+        //Debug.Log("Desirable confidence: " + desirable.DOM);
+        //Debug.Log("Very Desirable confidence " + veryDesirable.DOM);
 
         // defuzzy MaxAV
+        CalculateMaxAV();
+    }
+
+    private void CalculateMaxAV()
+    {
+        float undersirableAV, desirableAV, veryDesirableAV;
+
+        Keyframe[] undersirableKeys = desirabilitySets[0].keys;
+        Keyframe[] desirableKeys = desirabilitySets[1].keys;
+        Keyframe[] veryDesirableKeys = desirabilitySets[2].keys; 
+
+        undersirableAV = (undersirableKeys[0].time + undersirableKeys[1].time) / 2;
+        desirableAV = desirableKeys[1].time;
+        veryDesirableAV = (veryDesirableKeys[1].time + veryDesirableKeys[2].time) / 2;
+
+        Debug.Log(undersirableAV);
+        Debug.Log(desirableAV);
+        Debug.Log(veryDesirableAV);
+
+        outcome = ((undersirableAV * undersirable.DOM) + (desirableAV * desirable.DOM) + (veryDesirableAV * veryDesirable.DOM)) / ((undersirable.DOM + desirable.DOM + veryDesirable.DOM));
     }
 
     //float distanceVal, float ammoVal
     public void CalculateDesirability()
     {
+        desirability.ClearDOMs();
+        distanceToTarget.ClearDOMs();
+        ammoStatus.ClearDOMs();
+
         // Fuzzify() basically get the DOM from a fuzzyVariable
-        //distVariable.Evaluate(distanceVal);
-        //ammoVariable.Evaluate(ammoVal);
         distanceToTarget.Evaluate(float.Parse(distance.text));
         ammoStatus.Evaluate(float.Parse(ammo.text));
 
         Defuzzify();
+    }
+
+    private void Update()
+    {
+        outcomeText.text = "Outcome: " + outcome.ToString(); 
     }
 }
 
