@@ -1,95 +1,152 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FuzzyModule : MonoBehaviour
 {
+    [SerializeField] Button testBtn;
+    [SerializeField] InputField distance;
+    [SerializeField] InputField ammo; 
+
     enum Desirability { Undersirable, Desirable, VeryDesirable };
     enum DistanceToTarget { Close, Medium, Far };
     enum AmmoStatus { Low, Okay, Loads };
 
-    //private FuzzyVariable desirability; 
-    //private FuzzyVariable distanceToTarget;
-    //private FuzzyVariable ammoStatus;
+    FuzzyVariable desirability;
+    FuzzyVariable distanceToTarget;
+    FuzzyVariable ammoStatus;
 
-    [SerializeField] private AnimationCurve[] desirabilitySets; 
+    FuzzySet undersirable;
+    FuzzySet desirable;
+    FuzzySet veryDesirable;
+
+    FuzzySet targetClose;
+    FuzzySet targetMedium;
+    FuzzySet targetFar;
+
+    FuzzySet ammoLow;
+    FuzzySet ammoOkay;
+    FuzzySet ammoLoads; 
+
+    [SerializeField] private AnimationCurve[] desirabilitySets;
     [SerializeField] private AnimationCurve[] distanceToTargetSets;
     [SerializeField] private AnimationCurve[] ammoStatusSets;
-    
+
     // List of rules m_Rules; 
-    //private List<FuzzyRule> rules = new List<FuzzyRule>();
+    private FuzzyRule[] rules = new FuzzyRule[9];
 
-    private FuzzySet<Desirability> GetDesirabilitySet()
+    private void Start()
     {
-        FuzzySet<Desirability> set = new FuzzySet<Desirability>();
-        set.Set(new FuzzyVariable<Desirability>(Desirability.Undersirable, desirabilitySets[0]));
-        set.Set(new FuzzyVariable<Desirability>(Desirability.Desirable, desirabilitySets[1]));
-        set.Set(new FuzzyVariable<Desirability>(Desirability.VeryDesirable, desirabilitySets[2]));
-        return set;
+        testBtn.onClick.AddListener(CalculateDesirability);
+
+        undersirable = new FuzzySet(Desirability.Undersirable.ToString(), desirabilitySets[0]);
+        desirable = new FuzzySet(Desirability.Desirable.ToString(), desirabilitySets[1]);
+        veryDesirable = new FuzzySet(Desirability.VeryDesirable.ToString(), desirabilitySets[2]);
+
+        targetClose = new FuzzySet(DistanceToTarget.Close.ToString(), distanceToTargetSets[0]);
+        targetMedium = new FuzzySet(DistanceToTarget.Medium.ToString(), distanceToTargetSets[1]);
+        targetFar = new FuzzySet(DistanceToTarget.Far.ToString(), distanceToTargetSets[2]);
+
+        ammoLow = new FuzzySet(AmmoStatus.Low.ToString(), ammoStatusSets[0]);
+        ammoOkay = new FuzzySet(AmmoStatus.Okay.ToString(), ammoStatusSets[1]);
+        ammoLoads = new FuzzySet(AmmoStatus.Loads.ToString(), ammoStatusSets[2]);
+
+        desirability = new FuzzyVariable();
+        distanceToTarget = new FuzzyVariable();
+        ammoStatus = new FuzzyVariable();
+
+        desirability.Set(undersirable);
+        desirability.Set(desirable);
+        desirability.Set(veryDesirable);
+
+        distanceToTarget.Set(targetClose);
+        distanceToTarget.Set(targetMedium);
+        distanceToTarget.Set(targetFar);
+
+        ammoStatus.Set(ammoLow);
+        ammoStatus.Set(ammoOkay);
+        ammoStatus.Set(ammoLoads);
     }
 
-    private FuzzySet<DistanceToTarget> GetDistanceToTargetSet()
+    private FuzzyRule[] GetRules()
     {
-        FuzzySet<DistanceToTarget> set = new FuzzySet<DistanceToTarget>();
-        set.Set(new FuzzyVariable<DistanceToTarget>(DistanceToTarget.Close, distanceToTargetSets[0]));
-        set.Set(new FuzzyVariable<DistanceToTarget>(DistanceToTarget.Medium, distanceToTargetSets[1]));
-        set.Set(new FuzzyVariable<DistanceToTarget>(DistanceToTarget.Far, distanceToTargetSets[2]));
-        return set;
-    }
-
-    private FuzzySet<AmmoStatus> GetAmmoStatusSet()
-    {
-        FuzzySet<AmmoStatus> set = new FuzzySet<AmmoStatus>();
-        set.Set(new FuzzyVariable<AmmoStatus>(AmmoStatus.Low, ammoStatusSets[0]));
-        set.Set(new FuzzyVariable<AmmoStatus>(AmmoStatus.Okay, ammoStatusSets[1]));
-        set.Set(new FuzzyVariable<AmmoStatus>(AmmoStatus.Loads, ammoStatusSets[2]));
-        //set.Set(AmmoStatus.Low, ammoStatusSets[0]);
-        //set.Set(AmmoStatus.Okay, ammoStatusSets[1]);
-        //set.Set(AmmoStatus.Loads, ammoStatusSets[2]);
-        return set;
-    }
-
-    private FuzzyRule<Desirability>[] getRules()
-    {
-        FuzzyRule<Desirability>[] rules = new FuzzyRule<Desirability>[9];
+        FuzzyRule[] rules = new FuzzyRule[9];
         // rules[0] = new FuzzyRule(FuzzyTerm.And(fuzzyVariable1, fuzzyVariable2), outputVar);
+        rules[0] = new FuzzyRule(FuzzyTerm.AND(targetClose, ammoLoads), undersirable);
+        rules[1] = new FuzzyRule(FuzzyTerm.AND(targetClose, ammoOkay), undersirable);
+        rules[2] = new FuzzyRule(FuzzyTerm.AND(targetClose, ammoLow), undersirable);
+        rules[3] = new FuzzyRule(FuzzyTerm.AND(targetMedium, ammoLoads), veryDesirable);
+        rules[4] = new FuzzyRule(FuzzyTerm.AND(targetMedium, ammoOkay), veryDesirable);
+        rules[5] = new FuzzyRule(FuzzyTerm.AND(targetMedium, ammoLow), desirable);
+        rules[6] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoLoads), desirable);
+        rules[7] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoOkay), desirable);
+        rules[8] = new FuzzyRule(FuzzyTerm.AND(targetFar, ammoLow), undersirable);
 
         return rules;
     }
 
-    public void Fuzzy()
+    private void Defuzzify()
     {
-        FuzzySet<AmmoStatus> ammoSet = GetAmmoStatusSet();
-        ammoSet.Evaluate(8);
+        desirability.ClearDOMs();
+        distanceToTarget.ClearDOMs();
+        ammoStatus.ClearDOMs();
+
+        // Process rules 
+        rules = GetRules();
+        for (int i = 0; i < rules.Length; i++)
+        {
+            rules[i].Calculate();
+        }
+
+        Debug.Log("Undesirable confidence: " + undersirable.DOM);
+        Debug.Log("Desirable confidence: " + desirable.DOM);
+        Debug.Log("Very Desirable confidence " + veryDesirable.DOM);
+
+        // defuzzy MaxAV
+    }
+
+    //float distanceVal, float ammoVal
+    public void CalculateDesirability()
+    {
+        // Fuzzify() basically get the DOM from a fuzzyVariable
+        //distVariable.Evaluate(distanceVal);
+        //ammoVariable.Evaluate(ammoVal);
+        distanceToTarget.Evaluate(float.Parse(distance.text));
+        ammoStatus.Evaluate(float.Parse(ammo.text));
+
+        Defuzzify();
     }
 }
-//private void SetupFuzzySets()
-//{
-//    desirability.fuzzySets.Add(new FuzzySet("Undersirable", desirabilitySets[0]));
-//    desirability.fuzzySets.Add(new FuzzySet("Desirable", desirabilitySets[1]));
-//    desirability.fuzzySets.Add(new FuzzySet("VeryDesirable", desirabilitySets[2]));
-
-//    distanceToTarget.fuzzySets.Add(new FuzzySet("Close", distanceToTargetSets[0]));
-//    distanceToTarget.fuzzySets.Add(new FuzzySet("Medium", distanceToTargetSets[1]));
-//    distanceToTarget.fuzzySets.Add(new FuzzySet("Far", distanceToTargetSets[2]));
-
-//    ammoStatus.fuzzySets.Add(new FuzzySet("Low", ammoStatusSets[0]));
-//    ammoStatus.fuzzySets.Add(new FuzzySet("Okay", ammoStatusSets[1]));
-//    ammoStatus.fuzzySets.Add(new FuzzySet("Loads", ammoStatusSets[2]));
-//}
-
-//if this fuzzy set is part of a consequent FLV and it is fired by a rule,
-//then this method sets the DOM (in this context, the DOM represents a
-//confidence level) to the maximum of the parameter value or the set's
-//existing m_dDOM value
-// ORwithDOM(float val); 
-
-//private void SetupFuzzyRules()
-//{
-//    rules.Add(new FuzzyRule(FuzzyTerm.AND(distanceToTarget.fuzzySets.Find(x => x.setName == "Close"),
-//        ammoStatus.fuzzySets.Find(x => x.setName == "Loads")), desirability.fuzzySets.Find(x => x.setName == "Undersirable")));
 
 
-//    float i = FuzzyTerm.AND(distanceToTarget.fuzzySets.Find(x => x.setName == "Close"),
-//        ammoStatus.fuzzySets.Find(x => x.setName == "Loads"));
-//}
+
+/*private FuzzyVariable GetDesirabilitySet()
+    {
+        FuzzyVariable variableSet = new FuzzyVariable();
+        variableSet.Set(new FuzzySet(Desirability.Undersirable.ToString(), desirabilitySets[0]));
+        variableSet.Set(new FuzzySet(Desirability.Desirable.ToString(), desirabilitySets[1]));
+        variableSet.Set(new FuzzySet(Desirability.VeryDesirable.ToString(), desirabilitySets[2]));
+        return variableSet;
+    }
+
+    private FuzzyVariable GetDistanceToTargetSet()
+    {
+        FuzzyVariable variableSet = new FuzzyVariable();
+        variableSet.Set(new FuzzySet(DistanceToTarget.Close.ToString(), distanceToTargetSets[0]));
+        variableSet.Set(new FuzzySet(DistanceToTarget.Medium.ToString(), distanceToTargetSets[1]));
+        variableSet.Set(new FuzzySet(DistanceToTarget.Far.ToString(), distanceToTargetSets[2]));
+        return variableSet;
+    }
+
+    private FuzzyVariable GetAmmoStatusSet()
+    {
+        FuzzyVariable variableSet = new FuzzyVariable();
+        variableSet.Set(new FuzzySet(AmmoStatus.Low.ToString(), ammoStatusSets[0]));
+        variableSet.Set(new FuzzySet(AmmoStatus.Okay.ToString(), ammoStatusSets[1]));
+        variableSet.Set(new FuzzySet(AmmoStatus.Loads.ToString(), ammoStatusSets[2]));
+        //set.Set(AmmoStatus.Low, ammoStatusSets[0]);
+        //set.Set(AmmoStatus.Okay, ammoStatusSets[1]);
+        //set.Set(AmmoStatus.Loads, ammoStatusSets[2]);
+        return variableSet;
+    }*/

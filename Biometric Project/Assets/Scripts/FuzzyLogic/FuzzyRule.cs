@@ -1,22 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuzzyRule<T> where T : struct
+public class FuzzyRule
 {
-    public FuzzyTerm outputLinguisticVariable { get; private set; }
-    public FuzzyTerm Expression { get; private set; }
+    public FuzzyTerm antecedent { get; private set; } 
+    public FuzzyTerm consequence { get; private set; }
 
-    public FuzzyRule(FuzzyTerm outputVar, FuzzyTerm exp)
+    public FuzzyRule(FuzzyTerm input, FuzzyTerm output)
     {
-        outputLinguisticVariable = outputVar;
-        Expression = exp; 
+        this.antecedent = input;
+        this.consequence = output; 
     }
 
     public void Calculate()
     {
-        // Follow calculation stuff from book 
-        // consequence.dom = fuzzyterm.or(antecedent.dom, consequence.dom); 
+        consequence.ORwithDOM(antecedent.DOM);
     }
 
 }

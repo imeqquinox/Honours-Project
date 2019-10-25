@@ -920,13 +920,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1361744456}
   m_TextComponent: {fileID: 1518274297}
   m_Placeholder: {fileID: 725103158}
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -1026,67 +1026,223 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8bc11732f267dc4ba3c8a8571b2107f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testBtn: {fileID: 1499062569}
+  distance: {fileID: 1949664734}
+  ammo: {fileID: 1361744455}
   desirabilitySets:
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 0
-    m_PostInfinity: 0
-    m_RotationOrder: 0
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 0
-    m_PostInfinity: 0
-    m_RotationOrder: 0
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 0
-    m_PostInfinity: 0
-    m_RotationOrder: 0
-  distanceToTargetSets:
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 0
-    m_PostInfinity: 0
-    m_RotationOrder: 0
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 0
-    m_PostInfinity: 0
-    m_RotationOrder: 0
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 0
-    m_PostInfinity: 0
-    m_RotationOrder: 0
-  ammoStatusSets:
   - serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.00071195513
-      value: 0.0011688313
-      inSlope: 0
-      outSlope: 1402.9412
+      time: 0
+      value: 1
+      inSlope: 5.2399964
+      outSlope: 0
       tangentMode: 69
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0
+      time: 25
       value: 1
-      inSlope: 1402.9412
-      outSlope: -0.1
+      inSlope: -0
+      outSlope: -0.04
       tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
+      time: 50
+      value: 0
+      inSlope: -0.04
+      outSlope: -0.8100581
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 25
+      value: 0
+      inSlope: 1
+      outSlope: 0.04
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 50
+      value: 1
+      inSlope: 0.04
+      outSlope: -0.04
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 75
+      value: 0
+      inSlope: -0.04
+      outSlope: 1
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 50
+      value: 0
+      inSlope: 1.0000001
+      outSlope: 0.04
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 75
+      value: 1
+      inSlope: 0.04
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 100
+      value: 1
+      inSlope: -0
+      outSlope: 1
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  distanceToTargetSets:
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 25
+      value: 1
+      inSlope: -0
+      outSlope: -0.008
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 150
+      value: 0
+      inSlope: -0.008
+      outSlope: 1
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 25
+      value: 0
+      inSlope: 1
+      outSlope: 0.008
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 150
+      value: 1
+      inSlope: 0.008
+      outSlope: -0.006666667
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 300
+      value: 0
+      inSlope: -0.006666667
+      outSlope: 1
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 150
+      value: 0
+      inSlope: 1
+      outSlope: 0.006666667
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 300
+      value: 1
+      inSlope: 0.006666667
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 400
+      value: 1
+      inSlope: -0
+      outSlope: 1
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  ammoStatusSets:
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.1
+      outSlope: -0.1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 10
       value: 0
       inSlope: -0.1
-      outSlope: 0.81639725
-      tangentMode: 69
+      outSlope: -0.1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.15123802
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1096,12 +1252,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
+      inSlope: 1
       outSlope: 0.1
       tangentMode: 69
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 10
       value: 1
@@ -1115,10 +1271,10 @@ MonoBehaviour:
       time: 30
       value: 0
       inSlope: -0.05
-      outSlope: 0.11047322
+      outSlope: 1
       tangentMode: 69
       weightedMode: 0
-      inWeight: 0.15123802
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1128,12 +1284,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 10
       value: 0
-      inSlope: 0
+      inSlope: 1
       outSlope: 0.05
       tangentMode: 69
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 30
       value: 1
@@ -1147,10 +1303,10 @@ MonoBehaviour:
       time: 40
       value: 1
       inSlope: -0
-      outSlope: 0.81639725
+      outSlope: 1
       tangentMode: 69
       weightedMode: 0
-      inWeight: 0.15123802
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1336,8 +1492,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1465329688}
-        m_MethodName: Fuzzy
+      - m_Target: {fileID: 1465329686}
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1446,10 +1602,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -1776,13 +1932,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1949664735}
   m_TextComponent: {fileID: 588942676}
   m_Placeholder: {fileID: 1080994341}
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -1990,7 +2146,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Test
 --- !u!222 &2083332865
 CanvasRenderer:
   m_ObjectHideFlags: 0

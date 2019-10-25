@@ -1,23 +1,45 @@
-﻿using System.Collections;
+﻿using System; 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuzzyVariable<T> where T : struct
+/// <summary>
+/// Fuzzy variable acts a linguistic variable for array of fuzzy sets ie// Ammo Status (Low, Okay, Loads) 
+/// </summary>
+public class FuzzyVariable
 {
-    //public List<FuzzySet> fuzzySets = new List<FuzzySet>(); 
-    public T linguisticVariable { get; private set; }
-    public AnimationCurve membershipFunction { get; private set; }
-    public float DOM { get; private set; }
+    private FuzzySet[] sets = new FuzzySet[3];
+    private int index = 0; 
 
-    public FuzzyVariable(T linguisticVariable, AnimationCurve membershipFunction)
+    public void Set(string linguisticVariable, AnimationCurve fx)
     {
-        this.linguisticVariable = linguisticVariable;
-        this.membershipFunction = membershipFunction; 
+        this.Set(new FuzzySet(linguisticVariable, fx));
+    }
+
+    public void Set(FuzzySet fuzzySet)
+    {
+        if (fuzzySet == null)
+            return;
+
+        // The order you write and setup the set is the order of the fuzzysets 
+        this.sets[index] = fuzzySet;
+        index++;
     }
 
     public void Evaluate(float x)
     {
-        DOM = membershipFunction.Evaluate(x);
-        Debug.Log(DOM.ToString("F4"));
+        for (int i = 0; i < this.sets.Length; i++)
+        {
+            sets[i].Evaulate(x); 
+        }
+    }
+
+    public void ClearDOMs()
+    {
+        for (int i = 0; i < this.sets.Length; i++)
+        {
+            sets[i].ClearDOM();
+        }
     }
 }
+

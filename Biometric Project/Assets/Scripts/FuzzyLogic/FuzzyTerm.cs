@@ -3,33 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuzzyTerm : MonoBehaviour
+public class FuzzyTerm
 {
-    //Type T = typeof(struct); 
+    protected string linguisticVariable;
+    protected AnimationCurve membershipFunction; 
+    public float DOM { get; protected set; }
 
-    // FuzzySet input1, FuzzySet input2
-    // AnimationCurve input1? 
-    public static FuzzyVariable<T> AND<T>(FuzzyVariable<T> input) where T : struct
+    /// <summary>
+    /// Apply fuzzy AND function, returns the fuzzySet with the lowest DOM
+    /// </summary>
+    public static FuzzySet AND(FuzzySet input1, FuzzySet input2)
     {
-        // float var1 = input1.evaluate();
-        // float var2 = input2.evaluate();
-        // return Mathf.Clamp01(Mathf.Min(var1, var2));
-        return input;
+        if (input1.DOM < input2.DOM)
+            return input1;
+        else
+            return input2; 
     }
 
-    // FuzzySet input
-    public static float NOT()
+ 
+    public static FuzzySet OR(FuzzySet input1, FuzzySet input2)
     {
-        //float var = Mathf.Clamp01(input.evaluate());
-        return 0f; 
+        if (input1.DOM > input2.DOM)
+            return input1;
+        else
+            return input2;
     }
 
-    // FuzzySet input1, FuzzySet input2
-    public static float OR()
+    private float ORDOM(float otherDOM)
     {
-        // float var1 = input.evaluate(); 
-        // float var2 = input.evaluate(); 
-        // return Mathf.Clamp01(Mathf.Max(var1, var2)); 
-        return 0f; 
+        if (this.DOM > otherDOM)
+            return this.DOM;
+        else
+            return otherDOM;
+    }
+
+    public void ORwithDOM(float value)
+    {
+        DOM = ORDOM(value);
     }
 }

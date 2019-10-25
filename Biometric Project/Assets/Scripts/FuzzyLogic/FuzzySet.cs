@@ -3,33 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuzzySet<T> where T : struct, IConvertible
+/// <summary>
+/// Fuzzy Set which acts as a single membershipfunction within a fuzzy variable
+/// </summary>
+public class FuzzySet : FuzzyTerm
 {
-    //public float DOM { get; private set; }
-    private FuzzyVariable<T>[] variables = new FuzzyVariable<T>[3];
-    private int index = 0; 
-
-    public void Set(T linguisticVariable, AnimationCurve fx)
+    public FuzzySet(string linguisticVariable, AnimationCurve membershipFunction)
     {
-        this.Set(new FuzzyVariable<T>(linguisticVariable, fx));
+        this.linguisticVariable = linguisticVariable;
+        this.membershipFunction = membershipFunction; 
     }
 
-    public void Set(FuzzyVariable<T> fuzzyVariable)
+    public void Evaulate(float x)
     {
-        if (fuzzyVariable == null)
-            return;
-
-        // The order you write and setup the set is the order of the fuzzyvariables
-        this.variables[index] = fuzzyVariable;
-        index++; 
+        this.DOM = membershipFunction.Evaluate(x);
+        //Debug.Log(DOM.ToString("F4"));
     }
 
-    // Evaluate 
-    public void Evaluate(float x)
+    public void ClearDOM()
     {
-        for (int i = 0; i < this.variables.Length; i++)
-        {
-            variables[i].Evaluate(x);
-        }
+        this.DOM = 0; 
     }
 }
