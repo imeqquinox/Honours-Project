@@ -29,6 +29,14 @@ public class FuzzyTerm
             return input2;
     }
 
+    public static FuzzySet NOT(FuzzySet input)
+    {
+        float var = 1.0f - Mathf.Clamp01(input.DOM);
+        input.SetDOM(var);
+
+        return input; 
+    }
+
     private float ORDOM(float otherDOM)
     {
         if (this.DOM > otherDOM)
@@ -40,5 +48,10 @@ public class FuzzyTerm
     public void ORwithDOM(float value)
     {
         DOM = ORDOM(value);
+    }
+
+    public void SetDOM(float value)
+    {
+        DOM = value; 
     }
 }
