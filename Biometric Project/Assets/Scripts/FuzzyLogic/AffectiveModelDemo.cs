@@ -16,7 +16,7 @@ public class AffectiveModelDemo : MonoBehaviour
 
     FuzzyVariable arousal;
     FuzzyVariable valence;
-    FuzzyVariable fun;
+    DemoFuzzyVariable fun;
 
     FuzzySet fun_veryLow;
     FuzzySet fun_low;
@@ -47,6 +47,8 @@ public class AffectiveModelDemo : MonoBehaviour
 
     private void Start()
     {
+        enterBtn.onClick.AddListener(CalculateFun); 
+
         fun_veryLow = new FuzzySet(Fun.veryLow.ToString(), funCurve[0]);
         fun_low = new FuzzySet(Fun.low.ToString(), funCurve[1]);
         fun_medium = new FuzzySet(Fun.medium.ToString(), funCurve[2]);
@@ -66,7 +68,7 @@ public class AffectiveModelDemo : MonoBehaviour
         valence_high = new FuzzySet(Valence.high.ToString(), valenceCurve[4]);
         valence_veryHigh = new FuzzySet(Valence.veryHigh.ToString(), valenceCurve[5]);
 
-        fun = new FuzzyVariable();
+        fun = new DemoFuzzyVariable();
         arousal = new FuzzyVariable();
         valence = new FuzzyVariable();
 
@@ -125,19 +127,21 @@ public class AffectiveModelDemo : MonoBehaviour
 
         Keyframe[] fun_veryLowKeys = funCurve[0].keys;
         Keyframe[] fun_lowKeys = funCurve[1].keys;
-        Keyframe[] fun_mediumKEys = funCurve[2].keys;
+        Keyframe[] fun_mediumKeys = funCurve[2].keys;
         Keyframe[] fun_highKeys = funCurve[3].keys;
 
         fun_veryLowAV = (fun_veryLowKeys[0].time + fun_veryLowKeys[1].time) / 2;
-        //fun_lowAV = ;
+        fun_lowAV = (fun_lowKeys[1].time + fun_lowKeys[2].time) / 2;
+        fun_mediumAV = (fun_mediumKeys[1].time + fun_mediumKeys[2].time) / 2;
+        fun_highAV = (fun_highKeys[1].time + fun_highKeys[2].time) / 2; 
 
-        //outcome = ((fun_veryLowAV * fun_veryLow.DOM) + (fun_lowAV * fun_low.DOM) + (fun_mediumAV * fun_medium.DOM) + (fun_highAV * fun_high.DOM))
-        //    / (fun_veryLow.DOM + fun_low.DOM + fun_medium.DOM + fun_high.DOM); 
+        outcome = ((fun_veryLowAV * fun_veryLow.DOM) + (fun_lowAV * fun_low.DOM) + (fun_mediumAV * fun_medium.DOM) + (fun_highAV * fun_high.DOM))
+            / (fun_veryLow.DOM + fun_low.DOM + fun_medium.DOM + fun_high.DOM); 
     }
     
     public void CalculateFun()
     {
-        fun.ClearDOMs();
+        fun.ClearDOMS(); 
         arousal.ClearDOMs();
         valence.ClearDOMs();
 

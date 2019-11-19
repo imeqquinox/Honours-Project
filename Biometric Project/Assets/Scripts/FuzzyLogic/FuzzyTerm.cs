@@ -31,7 +31,8 @@ public class FuzzyTerm
 
     public static FuzzySet NOT(FuzzySet input)
     {
-        float var = 1.0f - Mathf.Clamp01(input.DOM);
+        Debug.Log(input.DOM); 
+        float var = 100.0f - (input.DOM);
         input.SetDOM(var);
 
         return input; 

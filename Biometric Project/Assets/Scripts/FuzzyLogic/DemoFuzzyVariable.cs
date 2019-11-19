@@ -1,19 +1,15 @@
-﻿using System; 
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Fuzzy variable acts a linguistic variable for array of fuzzy sets ie// Ammo Status (Low, Okay, Loads) 
-/// </summary>
-public class FuzzyVariable
+public class DemoFuzzyVariable 
 {
-    private FuzzySet[] sets = new FuzzySet[6];
+    private FuzzySet[] sets = new FuzzySet[4];
     private int index = 0; 
 
     public void Set(string linguisticVariable, AnimationCurve fx)
     {
-        this.Set(new FuzzySet(linguisticVariable, fx));
+        this.Set(new FuzzySet(linguisticVariable, fx)); 
     }
 
     public void Set(FuzzySet fuzzySet)
@@ -21,9 +17,8 @@ public class FuzzyVariable
         if (fuzzySet == null)
             return;
 
-        // The order you write and setup the set is the order of the fuzzysets 
         this.sets[index] = fuzzySet;
-        index++;
+        index++; 
     }
 
     public void Evaluate(float x)
@@ -34,12 +29,11 @@ public class FuzzyVariable
         }
     }
 
-    public void ClearDOMs()
+    public void ClearDOMS()
     {
         for (int i = 0; i < this.sets.Length; i++)
         {
-            sets[i].ClearDOM();
+            sets[i].ClearDOM(); 
         }
     }
 }
-
