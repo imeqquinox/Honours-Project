@@ -19,10 +19,10 @@ public class Interaction : MonoBehaviour
         {
             if (hit.collider.tag == "Door")
             {
-                Debug.Log("Door found");
+                //Debug.Log("Door found");
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    Debug.Log("I'm opening the door");
+                    //Debug.Log("I'm opening the door");
                     bool is_open = hit.collider.GetComponentInParent<Animator>().GetBool("open");
                     hit.collider.GetComponentInParent<Animator>().SetBool("open", !is_open);
                 }
