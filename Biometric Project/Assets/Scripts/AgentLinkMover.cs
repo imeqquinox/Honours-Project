@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System; 
 using UnityEngine;
 using UnityEngine.AI; 
 
@@ -18,10 +19,9 @@ public class AgentLinkMover : MonoBehaviour
         {
             if (agent.isOnOffMeshLink)
             {
-                yield return DoorDetection(); 
-                //yield return Walk();
+                Debug.Log("Entered mesh link");     
+                yield return Walk();
 
-                //agent.isStopped = true; 
                 agent.CompleteOffMeshLink(); 
             }
             yield return null; 
@@ -32,37 +32,28 @@ public class AgentLinkMover : MonoBehaviour
     {
         OffMeshLinkData data = agent.currentOffMeshLinkData;
         Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
-        while (agent.transform.position != endPos)
-        {
-            agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime);
-            yield return null;
-        }
-    }
 
-    private IEnumerator DoorDetection()
-    {
         RaycastHit hit;
-
-        if (Physics.Raycast(door_ray.position, door_ray.TransformDirection(Vector3.forward), out hit, 10f))
+        Debug.DrawLine(data.startPos, data.endPos);
+        if (Physics.Raycast(data.startPos, data.endPos, out hit, 10f))
         {
             if (hit.collider.tag == "Door")
             {
-                Debug.Log("Door found");
+                //Debug.Log("Door found");
                 agent.isStopped = true;
-                yield return null;
+                yield return null; 
             }
             else
             {
-                agent.isStopped = false;
-                yield return Walk(); 
+                agent.isStopped = false; 
             }
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Vector3 direction = door_ray.TransformDirection(Vector3.forward) * 10f;
-        Gizmos.DrawRay(door_ray.position, direction);
+        while (agent.transform.position != endPos)
+        {
+            //Debug.Log("Walking through door"); 
+            agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime);
+            yield return null;
+        }
     }
 }
