@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SadModel : EmotionModel
+public class CalmModel : EmotionModel
 {
-    private FuzzyVariable sad; 
+    private FuzzyVariable calm;
 
     protected override void Start()
     {
         base.Start();
 
-        sad = new FuzzyVariable();
+        calm = new FuzzyVariable();
 
-        sad.Set(low);
-        sad.Set(mid_low);
-        sad.Set(medium);
-        sad.Set(mid_high);
-        sad.Set(high); 
+        calm.Set(low);
+        calm.Set(mid_low);
+        calm.Set(medium);
+        calm.Set(mid_high);
+        calm.Set(high); 
     }
 
     protected override FuzzyRule[] GetRules()
@@ -28,7 +28,7 @@ public class SadModel : EmotionModel
 
     public void CalculateOutput()
     {
-        sad.ClearDOMs();
+        calm.ClearDOMs();
         input.arousal.ClearDOMs();
         input.valence.ClearDOMs();
 
