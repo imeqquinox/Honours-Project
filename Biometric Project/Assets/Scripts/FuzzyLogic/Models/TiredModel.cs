@@ -16,7 +16,9 @@ public class TiredModel : EmotionModel
         tired.Set(mid_low);
         tired.Set(medium);
         tired.Set(mid_high);
-        tired.Set(high); 
+        tired.Set(high);
+
+        //CalculateOutput(); 
     }
 
     protected override FuzzyRule[] GetRules()
@@ -61,8 +63,8 @@ public class TiredModel : EmotionModel
         input.arousal.ClearDOMs();
         input.valence.ClearDOMs();
 
-        input.arousal.Evaluate(95);
-        input.valence.Evaluate(95);
+        input.arousal.Evaluate(0);
+        input.valence.Evaluate(100);
 
         this.Defuzzify();
     }

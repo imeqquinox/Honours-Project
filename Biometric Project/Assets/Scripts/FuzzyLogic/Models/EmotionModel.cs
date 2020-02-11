@@ -69,6 +69,8 @@ public class EmotionModel : MonoBehaviour
         highAV = (high_keys[1].time + high_keys[2].time) / 2;
 
         outcome = ((lowAV * low.DOM) + (midLowAV * mid_low.DOM) + (mediumAV * medium.DOM) + (midHighAV * mid_high.DOM) + (highAV * high.DOM))
-            / (low.DOM + mid_low.DOM + medium.DOM + mid_high.DOM + high.DOM); 
+            / (low.DOM + mid_low.DOM + medium.DOM + mid_high.DOM + high.DOM);
+
+        //Debug.Log(outcome); 
     }
 }

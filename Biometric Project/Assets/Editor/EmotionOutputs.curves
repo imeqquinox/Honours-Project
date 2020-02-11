@@ -138,7 +138,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 65
+        time: 60
         value: 0
         inSlope: 2
         outSlope: 0.14285715
@@ -147,7 +147,7 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 72
+        time: 67
         value: 1
         inSlope: 0.14285715
         outSlope: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 82
+        time: 77
         value: 1
         inSlope: -0
         outSlope: -0.125
@@ -165,7 +165,7 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 90
+        time: 85
         value: 0
         inSlope: -0.125
         outSlope: 0
