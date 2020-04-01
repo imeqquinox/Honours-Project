@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using UnityEngine.SceneManagement; 
 
 public class DataInitialization : MonoBehaviour
 {
@@ -73,5 +74,10 @@ public class DataInitialization : MonoBehaviour
         average_heart_rate = temp / heart_rate_samples.Count; 
 
         Debug.LogWarning("Average heart rate: " + average_heart_rate); 
+    }
+
+    public void SwitchScene()
+    {
+        SceneManager.LoadScene(1);
     }
 }
