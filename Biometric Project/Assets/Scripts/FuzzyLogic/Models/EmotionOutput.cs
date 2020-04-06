@@ -45,6 +45,9 @@ public class EmotionOutput : MonoBehaviour
         arousal = new FuzzyVariable();
         valence = new FuzzyVariable();
 
+        arousal.SetsInit(5);
+        valence.SetsInit(5); 
+
         arousal.Set(arousal_low);
         arousal.Set(arousal_mid_low);
         arousal.Set(arousal_medium);

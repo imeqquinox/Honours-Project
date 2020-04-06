@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  door_ray: {fileID: 9192084415071406135}
 --- !u!114 &7372826658004442167
 MonoBehaviour:
   m_ObjectHideFlags: 0

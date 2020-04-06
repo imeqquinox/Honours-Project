@@ -10,7 +10,9 @@ public class AlarmedModel : EmotionModel
     {
         base.Start();
 
-        alarmed = new FuzzyVariable(); 
+        alarmed = new FuzzyVariable();
+
+        alarmed.SetsInit(5); 
 
         alarmed.Set(low);
         alarmed.Set(mid_low);

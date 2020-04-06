@@ -12,6 +12,8 @@ public class FearModel : EmotionModel
 
         fear = new FuzzyVariable();
 
+        fear.SetsInit(5); 
+
         fear.Set(low);
         fear.Set(mid_low);
         fear.Set(medium);

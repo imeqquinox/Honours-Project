@@ -12,6 +12,8 @@ public class TiredModel : EmotionModel
 
         tired = new FuzzyVariable();
 
+        tired.SetsInit(5);
+
         tired.Set(low);
         tired.Set(mid_low);
         tired.Set(medium);

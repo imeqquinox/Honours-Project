@@ -12,6 +12,8 @@ public class SadModel : EmotionModel
 
         sad = new FuzzyVariable();
 
+        sad.SetsInit(5);
+
         sad.Set(low);
         sad.Set(mid_low);
         sad.Set(medium);

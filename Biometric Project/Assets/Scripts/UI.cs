@@ -17,15 +17,15 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-        data_input = GameObject.Find("wrmhlRead").GetComponent<wrmhlRead>();
+        //data_input = GameObject.Find("wrmhlRead").GetComponent<wrmhlRead>();
     }
 
-    private void Update()
-    {
-        key_value.text = player_manager.m_key_count.ToString();
-        total_keys.text = player_manager.m_key_total.ToString();
+    //private void Update()
+    //{
+    //    key_value.text = player_manager.m_key_count.ToString();
+    //    total_keys.text = player_manager.m_key_total.ToString();
 
-        current_heart_rate = int.Parse(data_input.myDevice.readQueue());
-        heart_rate.text = "Current heart rate: " + current_heart_rate;
-    }
+    //    current_heart_rate = int.Parse(data_input.myDevice.readQueue());
+    //    heart_rate.text = "Current heart rate: " + current_heart_rate;
+    //}
 }

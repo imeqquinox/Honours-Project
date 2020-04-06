@@ -8,8 +8,14 @@ using UnityEngine;
 /// </summary>
 public class FuzzyVariable
 {
-    private FuzzySet[] sets = new FuzzySet[5];
+    //private FuzzySet[] sets = new FuzzySet[5];
+    private FuzzySet[] sets; 
     private int index = 0; 
+
+    public void SetsInit(int value)
+    {
+        sets = new FuzzySet[value];
+    }
 
     public void Set(string linguisticVariable, AnimationCurve fx)
     {

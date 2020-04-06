@@ -12,6 +12,8 @@ public class ExcitedModel : EmotionModel
 
         excited = new FuzzyVariable();
 
+        excited.SetsInit(5); 
+
         excited.Set(low);
         excited.Set(mid_low);
         excited.Set(medium);
