@@ -64,7 +64,7 @@ public class CalmModel : EmotionModel
         input.valence.ClearDOMs();
 
         input.arousal.Evaluate(input.arousal_input.outcome);
-        input.valence.Evaluate(95);
+        input.valence.Evaluate(50);
 
         this.Defuzzify(); 
     }

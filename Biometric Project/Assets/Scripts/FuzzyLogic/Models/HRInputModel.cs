@@ -108,4 +108,9 @@ public class HRInputModel : MonoBehaviour
 
         Defuzzify(); 
     }
+
+    private void Update()
+    {
+        CalculateArousal();
+    }
 }

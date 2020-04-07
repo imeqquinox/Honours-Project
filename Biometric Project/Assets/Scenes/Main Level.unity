@@ -1884,7 +1884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fc6facf45c7c64abb913acd349dc5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onFuzzy: 0
+  onFuzzy: 1
   onDynamic: 0
   monster_spawn: {fileID: 1014592295}
   monster_prefab: {fileID: 3434722277575774455, guid: ca3017a02d4ecaf4e95020dc33358595,
@@ -1937,9 +1937,9 @@ RectTransform:
   m_Father: {fileID: 473967909}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 668.68, y: -227.3}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -291.32, y: 285}
   m_SizeDelta: {x: 582.65, y: 554.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1195105129
@@ -2051,7 +2051,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1213453231
 RectTransform:
   m_ObjectHideFlags: 0
