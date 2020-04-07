@@ -7,34 +7,35 @@ public class HRInputModel : MonoBehaviour
     enum HeartRate { low, medium, high }; 
     enum Arousal { low, mid_low, mid_high, high };
 
-    FuzzyVariable arousal;
-    FuzzyVariable heart_rate;
+    private FuzzyVariable arousal;
+    private FuzzyVariable heart_rate;
 
-    FuzzySet heartRate_low;
-    FuzzySet heartRate_medium;
-    FuzzySet heartRate_high;
+    private FuzzySet heartRate_low;
+    private FuzzySet heartRate_medium;
+    private FuzzySet heartRate_high;
 
-    FuzzySet arousal_low;
-    FuzzySet arousal_midLow;
-    FuzzySet arousal_midHigh;
-    FuzzySet arousal_high;
+    private FuzzySet arousal_low;
+    private FuzzySet arousal_midLow;
+    private FuzzySet arousal_midHigh;
+    private FuzzySet arousal_high;
 
     [SerializeField] private AnimationCurve[] arousal_curve;
     [SerializeField] private AnimationCurve[] heartRate_curve;
 
-    private FuzzyRule[] rules = new FuzzyRule[2];
+    private FuzzyRule[] rules = new FuzzyRule[3];
 
-    private float arousal_outcome = 0;
+    private float outcome = 0;
+
     private void Start()
     {
-        heartRate_low = new FuzzySet(HeartRate.low.ToString(), heartRate_curve[0]);
-        heartRate_medium = new FuzzySet(HeartRate.medium.ToString(), heartRate_curve[1]);
-        heartRate_high = new FuzzySet(HeartRate.high.ToString(), heartRate_curve[2]);
-
         arousal_low = new FuzzySet(Arousal.low.ToString(), arousal_curve[0]);
         arousal_midLow = new FuzzySet(Arousal.mid_low.ToString(), arousal_curve[1]);
         arousal_midHigh = new FuzzySet(Arousal.mid_high.ToString(), arousal_curve[2]);
         arousal_high = new FuzzySet(Arousal.high.ToString(), arousal_curve[3]);
+
+        heartRate_low = new FuzzySet(HeartRate.low.ToString(), heartRate_curve[0]);
+        heartRate_medium = new FuzzySet(HeartRate.medium.ToString(), heartRate_curve[1]);
+        heartRate_high = new FuzzySet(HeartRate.high.ToString(), heartRate_curve[2]);
 
         heart_rate = new FuzzyVariable();
         arousal = new FuzzyVariable();
@@ -54,7 +55,7 @@ public class HRInputModel : MonoBehaviour
 
     private FuzzyRule[] GetRules()
     {
-        FuzzyRule[] rules = new FuzzyRule[2];
+        FuzzyRule[] rules = new FuzzyRule[3];
         rules[0] = new FuzzyRule(heartRate_low, arousal_low);
         rules[1] = new FuzzyRule(heartRate_medium, arousal_midHigh);
         rules[2] = new FuzzyRule(heartRate_high, arousal_high);
@@ -76,21 +77,23 @@ public class HRInputModel : MonoBehaviour
 
     private void CalculateMaxAV()
     {
-        float heartRate_lowAV, heartRate_mediumAV, heartRate_highAV;
+        float arousal_lowAV, arousal_midLowAV, arousal_midHighAV, arousal_highAV;
 
-        Keyframe[] heartRate_lowKeys = heartRate_curve[0].keys;
-        Keyframe[] heartRate_mediumKeys = heartRate_curve[1].keys;
-        Keyframe[] heartRate_highKeys = heartRate_curve[2].keys;
+        Keyframe[] arousal_lowKeys = arousal_curve[0].keys;
+        Keyframe[] arousal_midLowKeys = arousal_curve[1].keys;
+        Keyframe[] arousal_midHighKeys = arousal_curve[2].keys;
+        Keyframe[] arousal_highKeys = arousal_curve[3].keys;
 
-        heartRate_lowAV = (heartRate_lowKeys[2].time);
-        heartRate_mediumAV = (heartRate_mediumKeys[2].time);
-        heartRate_highAV = (heartRate_highKeys[2].time);
+        arousal_lowAV = (arousal_lowKeys[0].time + arousal_lowKeys[1].time) / 2;
+        arousal_midLowAV = (arousal_midLowKeys[1].time);
+        arousal_midHighAV = (arousal_midHighKeys[1].time);
+        arousal_highAV = (arousal_highKeys[0].time + arousal_highKeys[1].time) / 2;
 
-        arousal_outcome = ((heartRate_lowAV * heartRate_low.DOM) + (heartRate_mediumAV * heartRate_medium.DOM) + (heartRate_highAV * heartRate_high.DOM))
-            / (heartRate_low.DOM + heartRate_medium.DOM + heartRate_high.DOM); 
+        outcome = ((arousal_lowAV * arousal_low.DOM) + (arousal_midLowAV * arousal_midLow.DOM) + (arousal_midHighAV * arousal_midHigh.DOM) + (arousal_highAV * arousal_high.DOM))
+            / (arousal_low.DOM + arousal_midLow.DOM + arousal_midHigh.DOM + arousal_high.DOM); 
     }
 
-    public void CalculateHeartRate()
+    public void CalculateArousal()
     {
         heart_rate.ClearDOMs();
         arousal.ClearDOMs();

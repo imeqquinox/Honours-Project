@@ -7,8 +7,13 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class AgentLinkMover : MonoBehaviour
 {
-    [SerializeField] private Transform door_ray = null;
+    private Transform door_ray = null;
     private NavMeshAgent agent;
+
+    private void Awake()
+    {
+        door_ray = this.gameObject.transform.GetChild(1).transform;
+    }
 
     private IEnumerator Start()
     {
@@ -19,13 +24,13 @@ public class AgentLinkMover : MonoBehaviour
         {
             if (agent.isOnOffMeshLink)
             {
-                Debug.Log("Entered mesh link");     
+                //Debug.Log("Entered mesh link");     
                 yield return Walk();
 
                 agent.CompleteOffMeshLink(); 
             }
             yield return null; 
-        }
+        } 
     }
 
     private IEnumerator Walk()
@@ -35,7 +40,7 @@ public class AgentLinkMover : MonoBehaviour
 
         RaycastHit hit;
         Debug.DrawLine(data.startPos, data.endPos);
-        if (Physics.Raycast(data.startPos, data.endPos, out hit, 10f))
+        if (Physics.Raycast(data.startPos + new Vector3(0, 1, 0), data.endPos + new Vector3(0, 1, 0), out hit, 10f))
         {
             if (hit.collider.tag == "Door")
             {
@@ -49,6 +54,7 @@ public class AgentLinkMover : MonoBehaviour
             }
         }
 
+        // Walk through door
         while (agent.transform.position != endPos)
         {
             //Debug.Log("Walking through door"); 

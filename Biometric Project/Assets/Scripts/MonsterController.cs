@@ -18,6 +18,7 @@ public class MonsterController : MonoBehaviour
     private Transform target;
     private float rot_speed = 10f; 
     private float look_radius = 10f;
+    private float attack_radius = 3f; 
     private NavMeshAgent agent;
     private State current_state = State.Idle;
     private Animator animator; 
@@ -42,6 +43,15 @@ public class MonsterController : MonoBehaviour
             if (distance <= agent.stoppingDistance)
             {
                 FaceTarget(); 
+            }
+
+            if (distance <= attack_radius)
+            {
+                current_state = State.JumpAttack;
+                if (distance <= 1)
+                {
+                    Destroy(this.gameObject); 
+                }
             }
         }
 
