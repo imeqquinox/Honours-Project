@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EmotionOutput : MonoBehaviour
 {
-    [SerializeField] private HRInputModel arousal_input; 
+    public HRInputModel arousal_input; 
 
     enum Arousal { low, mid_low, medium, mid_high, high }; 
     enum Valence { low, mid_low, medium, mid_high, high }; 

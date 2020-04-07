@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HRInputModel : MonoBehaviour
 {
+    private PlayerManager player_manager; 
+
     enum HeartRate { low, medium, high }; 
     enum Arousal { low, mid_low, mid_high, high };
 
@@ -24,10 +26,14 @@ public class HRInputModel : MonoBehaviour
 
     private FuzzyRule[] rules = new FuzzyRule[3];
 
-    private float outcome = 0;
+    public float outcome { get; private set; }
 
     private void Start()
     {
+        outcome = 0; 
+
+        player_manager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>(); 
+
         arousal_low = new FuzzySet(Arousal.low.ToString(), arousal_curve[0]);
         arousal_midLow = new FuzzySet(Arousal.mid_low.ToString(), arousal_curve[1]);
         arousal_midHigh = new FuzzySet(Arousal.mid_high.ToString(), arousal_curve[2]);
@@ -98,7 +104,7 @@ public class HRInputModel : MonoBehaviour
         heart_rate.ClearDOMs();
         arousal.ClearDOMs();
 
-        heart_rate.Evaluate(90);
+        heart_rate.Evaluate(player_manager.current_heartRate);
 
         Defuzzify(); 
     }
