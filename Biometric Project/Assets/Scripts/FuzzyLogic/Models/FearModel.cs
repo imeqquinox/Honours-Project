@@ -71,7 +71,7 @@ public class FearModel : EmotionModel
 
     private void Update()
     {
-        Debug.Log(input.arousal_input.outcome); 
+        //Debug.Log(input.arousal_input.outcome); 
         CalculateOutput(); 
     }
 }
