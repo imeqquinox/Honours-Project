@@ -25,7 +25,10 @@ public class AIDirector : MonoBehaviour
     private CalmModel calm_output;
     private SadModel sad_output;
 
-    private float rule_timer = 0; 
+    // Dynamic scripting
+    private DynamicScripting dynamic_scripting; 
+
+    private float rule_timer = 0;
 
     private void Start()
     {
@@ -33,7 +36,9 @@ public class AIDirector : MonoBehaviour
         fear_output = fuzzy.GetComponent<FearModel>();
         excited_output = fuzzy.GetComponent<ExcitedModel>();
         calm_output = fuzzy.GetComponent<CalmModel>();
-        sad_output = fuzzy.GetComponent<SadModel>(); 
+        sad_output = fuzzy.GetComponent<SadModel>();
+
+        dynamic_scripting = GameObject.Find("Dynamic Scripting").GetComponent<DynamicScripting>();
 
         player_manager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
         audio_manager = GameObject.Find("Audio Manager").GetComponent<AudioManager>();
@@ -46,6 +51,7 @@ public class AIDirector : MonoBehaviour
 
         if (onFuzzy && started)
         {
+            // Do not activate 
             if (rule_timer > 20)
             {
                 FuzzyRules();
@@ -55,7 +61,12 @@ public class AIDirector : MonoBehaviour
 
         if (onDynamic && started)
         {
-            DynamicRules();
+            // Do not activate rules for 20 seconds
+            if (rule_timer > 20)
+            {
+                DynamicRules();
+                rule_timer = 0; 
+            }
         }
 
         rule_timer += Time.deltaTime; 
@@ -111,8 +122,23 @@ public class AIDirector : MonoBehaviour
     // Dynamicrule base
     private void DynamicRules()
     {
+        float dynamic_timer = 0;
+        while (!dynamic_scripting.CheckRuleTrigger())
+        {
+            // Keep checking for rule until 1 triggers
+            dynamic_scripting.RunScript(player_manager.current_heartRate, 0, 0);
 
+            if (dynamic_scripting.CheckRuleTrigger() && dynamic_timer > 10)
+            {
+                dynamic_scripting.FitnessUpdate(player_manager.current_heartRate, 0, 0);
+            }
+
+            dynamic_timer += Time.deltaTime;
+        }
+
+        // Update fitness value, adjust weights and create new script for next interaction
+        dynamic_scripting.FitnessUpdate(player_manager.current_heartRate, 0, 0);
+        dynamic_scripting.weight_adjustment.WeightAdjust(dynamic_scripting.fitness_value);
+        dynamic_scripting.script_gen.CreateScript();
     }
-
-   
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Rulebase : MonoBehaviour
-{
+{ 
     public int number_rules { get; private set; } = 5;
     private Rule[] rules;
     
@@ -36,17 +36,11 @@ public class Rulebase : MonoBehaviour
     // Add rules conditions to individual rules
     private void CreateRules()
     {        
-        rules[0].AddCondition(condition1);
-        rules[1].AddCondition(condition2);
-        rules[2].AddCondition(condition3);
-        rules[3].AddCondition(condition4);
-        rules[4].AddCondition(condition5); 
-    }
-
-    // Input parameters are from AI director to run selected rules
-    private void RunSelectedRules()
-    {
-        rules[0].RunCondition(5);
+        rules[0].AddCondition(condition1, Rule.DataInputType.HeartRate);
+        rules[1].AddCondition(condition2, Rule.DataInputType.HeartRate);
+        rules[2].AddCondition(condition3, Rule.DataInputType.HeartRate);
+        rules[3].AddCondition(condition4, Rule.DataInputType.HeartRate);
+        rules[4].AddCondition(condition5, Rule.DataInputType.HeartRate); 
     }
 
     public Rule GetRule(int value)

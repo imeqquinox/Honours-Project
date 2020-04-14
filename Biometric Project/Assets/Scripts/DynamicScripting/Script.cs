@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Script : MonoBehaviour
 {
-    private List<Rule> rules = new List<Rule>();
+    public List<Rule> rules { get; private set; } = new List<Rule>();
 
     public void AddRule(Rule new_rule)
     {
@@ -28,6 +28,25 @@ public class Script : MonoBehaviour
 
         rules.Add(new_rule);
         return true;
+    }
+
+    public void RunSelectedRules(int heart, int valence, int EMG)
+    {
+        for (int i = 0; i < rules.Count; i++)
+        {
+            if (rules[i].data_input_type == Rule.DataInputType.HeartRate)
+            {
+                rules[i].RunCondition(heart);
+            }
+            else if (rules[i].data_input_type == Rule.DataInputType.Valence)
+            {
+                rules[i].RunCondition(valence);
+            }
+            else if (rules[i].data_input_type == Rule.DataInputType.EMG)
+            {
+                rules[i].RunCondition(EMG);
+            }
+        }
     }
 
     public Rule GetScriptRules(int value)

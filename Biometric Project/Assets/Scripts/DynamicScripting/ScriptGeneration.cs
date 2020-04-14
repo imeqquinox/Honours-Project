@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ScriptGeneration : MonoBehaviour
 {
-    private Rulebase rulebase = null; 
-    private Script main_script = null; 
+    private Rulebase rulebase = null;
+    public Script main_script { get; private set; } = null;
 
     private int sum_weights = 0;
     private int numberOfRules;
@@ -22,8 +22,10 @@ public class ScriptGeneration : MonoBehaviour
         CreateScript();
     }
 
-    private void CreateScript()
+    public void CreateScript()
     {
+        main_script.ClearScript();
+
         sum_weights = 0;
 
         // ruleCount - 1
