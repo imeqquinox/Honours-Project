@@ -49,7 +49,7 @@ public class AIDirector : MonoBehaviour
     {
         GameBasedRules();
 
-        if (onFuzzy && started)
+        if (onFuzzy) //&& started)
         {
             // Do not activate 
             if (rule_timer > 20)
@@ -59,17 +59,19 @@ public class AIDirector : MonoBehaviour
             }
         }
 
-        if (onDynamic && started)
+        if (onDynamic) //&& started)
         {
             // Do not activate rules for 20 seconds
             if (rule_timer > 20)
             {
+                Debug.Log("Started dynamic");
                 DynamicRules();
                 rule_timer = 0; 
             }
         }
 
         rule_timer += Time.deltaTime; 
+        //Debug.Log()
     }
 
     // General rules to be triggered based off game progress
@@ -122,17 +124,19 @@ public class AIDirector : MonoBehaviour
     // Dynamicrule base
     private void DynamicRules()
     {
+        for (int i = 0; i < dynamic_scripting.script_gen.main_script.rules.Count; i++)
+        {
+            Debug.Log(dynamic_scripting.script_gen.main_script.rules[i].weight);
+        }
+
+        dynamic_scripting.StartValues(player_manager.current_heartRate, 0, 0);
+
         float dynamic_timer = 0;
-        while (!dynamic_scripting.CheckRuleTrigger())
+        while (!dynamic_scripting.CheckRuleTrigger() && dynamic_timer < 10)
         {
             // Keep checking for rule until 1 triggers
             dynamic_scripting.RunScript(player_manager.current_heartRate, 0, 0);
-
-            if (dynamic_scripting.CheckRuleTrigger() && dynamic_timer > 10)
-            {
-                dynamic_scripting.FitnessUpdate(player_manager.current_heartRate, 0, 0);
-            }
-
+            
             dynamic_timer += Time.deltaTime;
         }
 
@@ -140,5 +144,11 @@ public class AIDirector : MonoBehaviour
         dynamic_scripting.FitnessUpdate(player_manager.current_heartRate, 0, 0);
         dynamic_scripting.weight_adjustment.WeightAdjust(dynamic_scripting.fitness_value);
         dynamic_scripting.script_gen.CreateScript();
+        Debug.Log("Weights updated & new script made"); 
+
+        for (int i = 0; i < dynamic_scripting.script_gen.main_script.rules.Count; i++)
+        {
+            Debug.Log(dynamic_scripting.script_gen.main_script.rules[i].weight); 
+        }
     }
 }

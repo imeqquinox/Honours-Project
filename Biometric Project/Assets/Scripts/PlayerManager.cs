@@ -11,12 +11,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        //data_input = GameObject.Find("wrmhlRead").GetComponent<wrmhlRead>(); 
+        data_input = GameObject.Find("wrmhlRead").GetComponent<wrmhlRead>(); 
     }
 
     private void Update()
     {
-        //current_heartRate = int.Parse(data_input.myDevice.readQueue());
+        current_heartRate = int.Parse(data_input.myDevice.readQueue());
     }
 
     public void AddKeyCount(int value)
