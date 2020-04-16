@@ -39,7 +39,7 @@ public class UI : MonoBehaviour
 
         key_value.text = player_manager.m_key_count.ToString();
         total_keys.text = player_manager.m_key_total.ToString();
-        heart_rate.text = "Current heart rate: " + player_manager.current_heartRate.ToString();
+        heart_rate.text = "Current heart rate: " + player_manager.normalized_heartRate.ToString();
     }
 
     public void JumpScare()

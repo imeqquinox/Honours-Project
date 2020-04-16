@@ -6,14 +6,15 @@ public class HRInputModel : MonoBehaviour
 {
     private PlayerManager player_manager; 
 
-    enum HeartRate { low, medium, high }; 
+    enum HeartRate { low, mid_low, mid_high, high }; 
     enum Arousal { low, mid_low, mid_high, high };
 
     private FuzzyVariable arousal;
     private FuzzyVariable heart_rate;
 
     private FuzzySet heartRate_low;
-    private FuzzySet heartRate_medium;
+    private FuzzySet heartRate_midLow;
+    private FuzzySet heartRate_midHigh; 
     private FuzzySet heartRate_high;
 
     private FuzzySet arousal_low;
@@ -24,7 +25,7 @@ public class HRInputModel : MonoBehaviour
     [SerializeField] private AnimationCurve[] arousal_curve;
     [SerializeField] private AnimationCurve[] heartRate_curve;
 
-    private FuzzyRule[] rules = new FuzzyRule[3];
+    private FuzzyRule[] rules = new FuzzyRule[4];
 
     public float outcome { get; private set; }
 
@@ -40,8 +41,9 @@ public class HRInputModel : MonoBehaviour
         arousal_high = new FuzzySet(Arousal.high.ToString(), arousal_curve[3]);
 
         heartRate_low = new FuzzySet(HeartRate.low.ToString(), heartRate_curve[0]);
-        heartRate_medium = new FuzzySet(HeartRate.medium.ToString(), heartRate_curve[1]);
-        heartRate_high = new FuzzySet(HeartRate.high.ToString(), heartRate_curve[2]);
+        heartRate_midLow = new FuzzySet(HeartRate.mid_low.ToString(), heartRate_curve[1]);
+        heartRate_midHigh = new FuzzySet(HeartRate.mid_high.ToString(), heartRate_curve[2]); 
+        heartRate_high = new FuzzySet(HeartRate.high.ToString(), heartRate_curve[3]);
 
         heart_rate = new FuzzyVariable();
         arousal = new FuzzyVariable();
@@ -50,7 +52,8 @@ public class HRInputModel : MonoBehaviour
         arousal.SetsInit(4);
 
         heart_rate.Set(heartRate_low);
-        heart_rate.Set(heartRate_medium);
+        heart_rate.Set(heartRate_midLow);
+        heart_rate.Set(heartRate_midHigh); 
         heart_rate.Set(heartRate_high);
 
         arousal.Set(arousal_low);
@@ -61,10 +64,11 @@ public class HRInputModel : MonoBehaviour
 
     private FuzzyRule[] GetRules()
     {
-        FuzzyRule[] rules = new FuzzyRule[3];
+        FuzzyRule[] rules = new FuzzyRule[4];
         rules[0] = new FuzzyRule(heartRate_low, arousal_low);
-        rules[1] = new FuzzyRule(heartRate_medium, arousal_midHigh);
-        rules[2] = new FuzzyRule(heartRate_high, arousal_high);
+        rules[1] = new FuzzyRule(heartRate_midLow, arousal_midLow);
+        rules[2] = new FuzzyRule(heartRate_midHigh, arousal_midHigh); 
+        rules[3] = new FuzzyRule(heartRate_high, arousal_high);
 
         return rules; 
     }
@@ -104,7 +108,7 @@ public class HRInputModel : MonoBehaviour
         heart_rate.ClearDOMs();
         arousal.ClearDOMs();
 
-        heart_rate.Evaluate(player_manager.current_heartRate);
+        heart_rate.Evaluate(player_manager.normalized_heartRate);
 
         Defuzzify(); 
     }

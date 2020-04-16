@@ -5,7 +5,7 @@ using UnityEngine;
 public class DynamicScripting : MonoBehaviour
 {
     // Required components for dynamic scripting
-    private Rulebase rulebase = null;
+    public Rulebase rulebase { get; private set; } = null;
     public ScriptGeneration script_gen { get; private set; } = null;
     public WeightAdjustment weight_adjustment { get; private set; } = null; 
 
@@ -13,7 +13,6 @@ public class DynamicScripting : MonoBehaviour
 
     private int start_heart = 0;
     private int start_valence = 0;
-    private int start_EMG = 0; 
 
     private void Start()
     {
@@ -22,16 +21,15 @@ public class DynamicScripting : MonoBehaviour
         weight_adjustment = GetComponent<WeightAdjustment>(); 
     }
 
-    public void StartValues(int heart_input, int valence_input, int EMG_input)
+    public void StartValues(int heart_input, int valence_input)
     {
         start_heart = heart_input;
         start_valence = valence_input;
-        start_EMG = EMG_input;
     }
 
-    public void RunScript(int heart_input, int valence_input, int EMG_input)
+    public void RunScript(int heart_input, int valence_input)
     {
-        script_gen.main_script.RunSelectedRules(heart_input, valence_input, EMG_input);
+        script_gen.main_script.RunSelectedRules(heart_input, valence_input);
     }
 
     public bool CheckRuleTrigger()
@@ -51,7 +49,7 @@ public class DynamicScripting : MonoBehaviour
         return check_trigger;
     }
 
-    public void FitnessUpdate(int heart_input, int valence_input, int EMG_input)
+    public void FitnessUpdate(int heart_input, int valence_input)
     {
         fitness_value = (heart_input - start_heart) / start_heart;
         Debug.Log("Fitness updated: " + fitness_value); 

@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class Rule : MonoBehaviour
 {
-    public enum DataInputType
-    {
-        HeartRate,
-        Valence, 
-        EMG
-    };
-
     public int weight { get; private set; } = 100;
     public bool activated { get; private set; } = false;
-    public System.Func<int, bool> condition { get; private set; }
-    public DataInputType data_input_type { get; private set; }
+    public System.Func<int, int, bool> condition { get; private set; }
+    public System.Action action { get; private set; }
     private bool result; 
 
     // Setters
@@ -28,22 +21,17 @@ public class Rule : MonoBehaviour
         activated = value; 
     }
 
-    public void SetDataInput(DataInputType input)
-    {
-        data_input_type = input;
-    }
-
     // Condition adder
-    public void AddCondition(System.Func<int, bool> _condition, DataInputType data_input)
+    public void AddCondition(System.Func<int, int, bool> _condition, System.Action _action)
     {
         condition = _condition;
-        data_input_type = data_input;
+        action = _action; 
     }
 
     // Check if the rule is triggered, then run action
-    public void RunCondition(int n1)
+    public void RunCondition(int HR, int Val)
     {
-        result = condition(n1);
+        result = condition(HR, Val);
 
         if (result)
         {
@@ -54,7 +42,7 @@ public class Rule : MonoBehaviour
     public void Action()
     {
         activated = true;
+        action.Invoke(); 
         Debug.Log("Action triggered"); 
-        // Insert action to be taken
     }
 }

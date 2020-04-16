@@ -65,7 +65,7 @@ public class AIDirector : MonoBehaviour
             if (rule_timer > 20)
             {
                 Debug.Log("Started dynamic");
-                DynamicRules();
+                Dynamic();
                 rule_timer = 0; 
             }
         }
@@ -90,58 +90,73 @@ public class AIDirector : MonoBehaviour
     // Fuzzylogic rulebase
     private void FuzzyRules()
     {
-        // IF fear < 25 AND excited < 25 THEN 
+
+
+        // Jump scare 
         if (fear_output.outcome < 25 && excited_output.outcome < 25)
         {
-            // Jump scare picture
             ui_display.JumpScare();
             audio_manager.JumpScareScream();
         }
 
-        // IF calm > 50 AND excited > 50 THEN 
-        if (calm_output.outcome > 75 && excited_output.outcome > 75)
+        // Play eerie sound effect 
+        if (calm_output.outcome > 50 && sad_output.outcome < 25)
         {
-            // Spawn monster for chasing
-            GameObject.Instantiate(monster_prefab, monster_spawn.position, Quaternion.identity);
-            audio_manager.MonsterSpawnClip();
-            monster_spawned = true;
+
         }
 
-        // IF fear < 75 THEN
-        if (fear_output.outcome < 75)
+        // Play ambient sound effect 
+        if ((calm_output.outcome < 50 && calm_output.outcome > 25) && (sad_output.outcome > 25 && sad_output.outcome < 50))
         {
-            // Player scary/eerie sound effect
-            audio_manager.Eerie();
+
         }
 
-        // IF monster_spawned = true AND fear < 75 THEN 
-        if (monster_spawned && fear_output.outcome < 75)
+        // Play scream sound effect 
+        if (excited_output.outcome > 70)
         {
-            // Make monster faster and scarier
+
+        }
+        
+        // Play evil laugh sound effect 
+        if (calm_output.outcome < 25 && sad_output.outcome > 50)
+        {
+
+        }
+
+        // Turn lights off 
+        if (fear_output.outcome < 20 && excited_output.outcome < 20)
+        {
+
+        }
+
+        // Slow player movement 
+        if (excited_output.outcome > 50)
+        {
+
         }
     }
 
     // Dynamicrule base
-    private void DynamicRules()
+    private void Dynamic()
     {
         for (int i = 0; i < dynamic_scripting.script_gen.main_script.rules.Count; i++)
         {
             Debug.Log(dynamic_scripting.script_gen.main_script.rules[i].weight);
         }
 
-        dynamic_scripting.StartValues(player_manager.current_heartRate, 0, 0);
+        dynamic_scripting.StartValues(player_manager.normalized_heartRate, 0);
 
         float dynamic_timer = 0;
         while (!dynamic_scripting.CheckRuleTrigger() && dynamic_timer < 10)
         {
             // Keep checking for rule until 1 triggers
-            dynamic_scripting.RunScript(player_manager.current_heartRate, 0, 0);
+            dynamic_scripting.RunScript(player_manager.normalized_heartRate, 0);
             
             dynamic_timer += Time.deltaTime;
         }
 
         // Update fitness value, adjust weights and create new script for next interaction
-        dynamic_scripting.FitnessUpdate(player_manager.current_heartRate, 0, 0);
+        dynamic_scripting.FitnessUpdate(player_manager.normalized_heartRate, 0);
         dynamic_scripting.weight_adjustment.WeightAdjust(dynamic_scripting.fitness_value);
         dynamic_scripting.script_gen.CreateScript();
         Debug.Log("Weights updated & new script made"); 
