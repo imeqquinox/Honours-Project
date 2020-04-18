@@ -86,10 +86,4 @@ public class ScriptGeneration : MonoBehaviour
     {
         return main_script; 
     }
-
-    private void Update()
-    {
-        //Debug.Log(main_script.rules.Count);
-        //Debug.Log(main_script.rules[0].condition.Method);
-    }
 }

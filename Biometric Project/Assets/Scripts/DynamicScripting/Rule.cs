@@ -8,7 +8,7 @@ public class Rule : MonoBehaviour
     public bool activated { get; private set; } = false;
     public System.Func<int, int, bool> condition { get; private set; }
     public System.Action action { get; private set; }
-    private bool result; 
+    private bool result = false; 
 
     // Setters
     public void SetWeight(int value)

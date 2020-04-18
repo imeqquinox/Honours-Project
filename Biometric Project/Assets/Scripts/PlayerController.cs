@@ -35,4 +35,9 @@ public class PlayerController : MonoBehaviour
 
         character_controller.Move(move_direction * Time.deltaTime); 
     }
+
+    public void SetSpeed(float value)
+    {
+        speed = value;
+    }
 }

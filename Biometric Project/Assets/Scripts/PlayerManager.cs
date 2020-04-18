@@ -16,13 +16,13 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         //data_input = GameObject.Find("wrmhlRead").GetComponent<wrmhlRead>(); 
-        data_input = GameObject.Find("Normalize Heart Rate").GetComponent<NormalizeHeartRate>(); 
+        //data_input = GameObject.Find("Normalize Heart Rate").GetComponent<NormalizeHeartRate>(); 
     }
 
     private void Update()
     {
         //current_heartRate = int.Parse(data_input.myDevice.readQueue());
-        normalized_heartRate = data_input.normalizeHeartRate; 
+        //normalized_heartRate = data_input.normalizeHeartRate; 
     }
 
     public void AddKeyCount(int value)

@@ -39,6 +39,7 @@ public class WeightAdjustment : MonoBehaviour
         if (active <= 0 && active >= main_script.GetRuleCount())
         {
             // Return no updates needed
+            return; 
         }
 
         nonActive = main_script.GetRuleCount() - active;

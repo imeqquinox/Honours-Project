@@ -13,6 +13,11 @@ public class Script : MonoBehaviour
 
     public void ClearScript()
     {
+        for (int i = 0; i < rules.Count; i++)
+        {
+            rules[i].SetActivated(false);
+        }
+
         rules.Clear();
     }
 
@@ -32,9 +37,16 @@ public class Script : MonoBehaviour
 
     public void RunSelectedRules(int heart, int valence)
     {
+        //bool rule_triggered = false;
+
         for (int i = 0; i < rules.Count; i++)
         {
+            // If rule has been triggered back out of loop
+            //if (rule_triggered)
+                //break;
+
             rules[i].RunCondition(heart, valence);
+            //rule_triggered = rules[i].activated; 
         }
     }
 

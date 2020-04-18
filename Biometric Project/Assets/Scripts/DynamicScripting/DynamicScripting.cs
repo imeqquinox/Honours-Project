@@ -41,7 +41,6 @@ public class DynamicScripting : MonoBehaviour
             if (script_gen.main_script.rules[i].activated)
             {
                 check_trigger = true;
-                Debug.Log("Rule triggered"); 
                 return check_trigger; 
             }
         }
@@ -51,7 +50,10 @@ public class DynamicScripting : MonoBehaviour
 
     public void FitnessUpdate(int heart_input, int valence_input)
     {
-        fitness_value = (heart_input - start_heart) / start_heart;
+        float heart_value = (heart_input - start_heart) / start_heart;
+        float valence_value = (valence_input - start_valence) / start_valence;
+
+        fitness_value = (heart_value + valence_value) / 2;
         Debug.Log("Fitness updated: " + fitness_value); 
     }
 }
